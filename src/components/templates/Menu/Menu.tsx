@@ -1,23 +1,40 @@
 "use client";
-import Button from "@/components/atoms/button"
-import Game from "@/components/templates/play/play"
-import Multigame from "@/components/templates/multiplayer/multiplayer";
-import { useEffect, useRef, useState } from "react";
+import Button from "@/components/atoms/button";
+import Game from "@/components/templates/play/play";
+import { useState } from "react";
+
 export const Play = () => {
-  const [mode, setMode] = useState(<Play/>);
-  let onegame = () => {
-    setMode(<Game/>)
-  }
-  let twogame = () => {
-    setMode(<Multigame/>)
-  }
+  const [mode, setMode] = useState("menu");
+
+  const onegame = () => {
+    setMode("single");
+  };
+
   return (
     <div className="grid h-screen place-items-center">
-      <div className="grid h-[300px]">
-        <div onClick={onegame}><Button label="Play"/></div>
-        <div onClick={twogame}><Button label="Multiplayer"/></div>
-      </div>
+      {mode === "menu" && (
+        <div onClick={onegame}>
+          <Button
+            className="bg-[#6C30D3] before:bg-[#3d324e]"
+            label="Play"
+          />
+        </div>
+      )}
+
+      {mode === "single" && (
+        <div className="flex flex-col items-center gapsw-4">
+          <Game />
+          <div onClick={() => setMode("menu")}>
+            <Button
+              className="bg-red-600 before:bg-red-900"
+              label="End Game"
+            />
+          </div>
+        </div>
+      )}
     </div>
-  )
-}
-export default Play
+  );
+};
+
+export default Play;
+
